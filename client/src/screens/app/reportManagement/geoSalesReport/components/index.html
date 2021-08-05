@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.min.js"></script>
+    <script>
+        //  var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+        //Init Overlays
+        var overlays = {};
+
+        //Init BaseMaps
+        var basemaps = {
+            "OpenStreetMaps": L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    minZoom: 2,
+                    maxZoom: 19,
+                    id: "osm.streets"
+                }
+            ),
+            "GoogleMap": L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
+                {
+                    minZoom: 2,
+                    maxZoom: 19,
+                    // zoomOffset: -1,
+                    id: "google.street"
+                }
+            ),
+            "Google-Satellite": L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                {
+                    minZoom: 2,
+                    maxZoom: 19,
+                    id: "google.satellite"
+                }
+            ),
+            "Google-Hybrid": L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+                {
+                    minZoom: 2,
+                    maxZoom: 19,
+                    id: "google.hybrid"
+                }
+            )
+        };
+
+        var map;
+        function showMap(callback) {
+            // if (callback) {
+            //     map?.remove()
+            // }
+            //Map Options
+            var mapOptions = {
+                zoomControl: false,
+                attributionControl: false,
+                center: [23.777176, 90.399452],
+                zoom: 10,
+                layers: [basemaps.GoogleMap]
+            };
+
+            //Render Main Map
+            map = L.map("map", mapOptions);
+            L.control.zoom({ position: 'topright' }).addTo(map);
+
+            let polylineData = [
+                [
+                    "23.7661633",
+                    "90.3588733"
+                ],
+                [
+                    "23.7509415",
+                    "90.36542960000001"
+                ],
+                [
+                    "23.7557995",
+                    "90.3644317"
+                ],
+                [
+                    "23.7661633",
+                    "90.3588733"
+                ],
+                [
+                    "23.7557893",
+                    "90.3644328"
+                ],
+                [
+                    "23.7661633",
+                    "90.3588733"
+                ],
+                [
+                    "23.7509415",
+                    "90.36542960000001"
+                ],
+                [
+                    "23.7558277",
+                    "90.36444519999999"
+                ],
+                [
+                    "23.7557977",
+                    "90.3644548"
+                ],
+                [
+                    "23.7661633",
+                    "90.3588733"
+                ],
+                [
+                    "23.7558272",
+                    "90.3643881"
+                ],
+                [
+                    "23.7509415",
+                    "90.36542960000001"
+                ],
+                [
+                    "23.7509415",
+                    "90.36542960000001"
+                ],
+                [
+                    "23.7956033",
+                    "90.3536533"
+                ],
+                [
+                    "23.7558084",
+                    "90.3644511"
+                ],
+                [
+                    "23.7558084",
+                    "90.3644511"
+                ],
+                [
+                    "23.7558047",
+                    "90.364443"
+                ],
+                [
+                    "23.7956033",
+                    "90.3536533"
+                ],
+                [
+                    "23.7956033",
+                    "90.3536533"
+                ]
+            ]
+
+
+
+            // callback()
+            let locations =
+                [
+                    {
+                        outletId: 46,
+                        outletName: 'Akash Shop Corner',
+                        outletLong: '90.3588733',
+                        outletLat: '23.7661633',
+                        longitiud: '90.3588733',
+                        latitude: '23.7661633',
+                        isOrder: false,
+                        isNoOrder: true,
+                        notVisited: false,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Akash',
+                        mobileNumber: '1738716433',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 29.604,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 47,
+                        outletName: 'Emdad Shop Corner',
+                        outletLong: '90.36542960000001',
+                        outletLat: '23.7509415',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Emdad',
+                        mobileNumber: '17453733487',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 48,
+                        outletName: 'Mamun Fashion Corner',
+                        outletLong: '90.3644317',
+                        outletLat: '23.7557995',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Mamun ahmed',
+                        mobileNumber: '173652334',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 15290,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 49,
+                        outletName: 'Jahed Fashion BD',
+                        outletLong: '90.3588733',
+                        outletLat: '23.7661633',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Jahed Hasan',
+                        mobileNumber: '163824782',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 19.604,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 50,
+                        outletName: 'Iftakhar Tech BD',
+                        outletLong: '90.3644328',
+                        outletLat: '23.7557893',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Iftakhar',
+                        mobileNumber: '1645237434',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 78.812,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 56,
+                        outletName: 'Emon Shop Corner',
+                        outletLong: '90.3588733',
+                        outletLat: '23.7661633',
+                        longitiud: '90.3588733',
+                        latitude: '23.7661633',
+                        isOrder: false,
+
+                        isNoOrder: false,
+                        orderDistance:50,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Emon',
+                        mobileNumber: '0164252452',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 59,
+                        outletName: 'Demo outlet01',
+                        outletLong: '90.36542960000001',
+                        outletLat: '23.7509415',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Demo',
+                        mobileNumber: '123456789',
+                        outletAddress: 'Dhaka Bangladesh',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 60,
+                        outletName: 'hjgyuk',
+                        outletLong: '90.36444519999999',
+                        outletLat: '23.7558277',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'redwan',
+                        mobileNumber: '92383727383238923',
+                        outletAddress: 'Etyyuj',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 61,
+                        outletName: 'ibos ',
+                        outletLong: '90.3644548',
+                        outletLat: '23.7557977',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'tawsif ',
+                        mobileNumber: '2827288374',
+                        outletAddress: 'Etyyuj',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 981,
+                        outletName: 'sdfsdf',
+                        outletLong: '90.3643881',
+                        outletLat: '23.7558272',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'New Outlet 0001 ',
+                        mobileNumber: '019923456987',
+                        outletAddress: 'sdfsdf',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 1026,
+                        outletName: 'Faw',
+                        outletLong: '90.36542960000001',
+                        outletLat: '23.7509415',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Mamun Dadu',
+                        mobileNumber: '235325532',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 1032,
+                        outletName: 'Bangle DB Store',
+                        outletLong: '90.36542960000001',
+                        outletLat: '23.7509415',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Rahman Kader',
+                        mobileNumber: '2352352353',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 1042,
+                        outletName: 'foysal store007',
+                        outletLong: '90.3536533',
+                        outletLat: '23.7956033',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'alauddin',
+                        mobileNumber: '23423423',
+                        outletAddress: 'dhaka',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 1043,
+                        outletName: 'Redwan 420 ',
+                        outletLong: '90.3644511',
+                        outletLat: '23.7558084',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Redwan',
+                        mobileNumber: '0168000000',
+                        outletAddress: '420 Goli , Mohammadpur',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 1046,
+                        outletName: 'Redwan_420',
+                        outletLong: '90.3644511',
+                        outletLat: '23.7558084',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Redwan',
+                        mobileNumber: '01789668788',
+                        outletAddress: '420Goli',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 1061,
+                        outletName: 'check',
+                        outletLong: '90.3536533',
+                        outletLat: '23.7956033',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'ami mamun',
+                        mobileNumber: '35544444',
+                        outletAddress: 'none',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '0001-01-01T00:00:00',
+                    },
+                    {
+                        outletId: 1066,
+                        outletName: 'food',
+                        outletLong: '90.3536533',
+                        outletLat: '23.7956033',
+                        longitiud: '90.3536533',
+                        latitude: '23.7956033',
+                        isOrder: true,
+                        isNoOrder: false,
+                        notVisited: false,
+                        checkinTime: '',
+                        checkOutTime: '06/16/2021 12:49:31',
+                        stayingTime_In_Minutes: '',
+                        ownerName: 'ami manun vai er lok',
+                        mobileNumber: '12121',
+                        outletAddress: 'address nai update 3',
+                        lastSalesAmount: 10,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '2021-06-16T06:49:31.57',
+                    },
+                    {
+                        outletId: 66,
+                        outletName: 'Outlet DB Bnagla',
+                        outletLong: '90.3588733',
+                        outletLat: '23.7661633',
+                        longitiud: '90.3536533',
+                        latitude: '23.7956033',
+                        isOrder: true,
+                        isNoOrder: false,
+                        notVisited: false,
+                        checkinTime: '',
+                        checkOutTime: '06/16/2021 12:50:19',
+                        stayingTime_In_Minutes: '',
+                        ownerName: 'Ahmed Redwarning',
+                        mobileNumber: '0182282828282',
+                        outletAddress: 'Dhaka DB',
+                        lastSalesAmount: 10,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '2021-06-16T06:50:19.89',
+                    },
+                    {
+                        outletId: 1049,
+                        outletName: 'Neew outlet',
+                        outletLong: '90.364443',
+                        outletLat: '23.7558047',
+                        longitiud: '90.3536533',
+                        latitude: '23.7956033',
+                        isOrder: true,
+                        isNoOrder: false,
+                        notVisited: false,
+                        checkinTime: '',
+                        checkOutTime: '06/16/2021 12:52:07',
+                        stayingTime_In_Minutes: '',
+                        ownerName: 'Bgui',
+                        mobileNumber: '35789073',
+                        outletAddress: 'Dthl',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                        lastActionDateTime: '2021-06-16T06:52:07.637',
+                    },
+                ];;
+
+            let polyData =
+                [
+                    {
+                        outletId: 66,
+                        outletName: 'Outlet DB Bnagla',
+                        outletLong: '90.3588733',
+                        outletLat: '23.7661633',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Ahmed Redwarning',
+                        mobileNumber: '0182282828282',
+                        outletAddress: 'Dhaka DB',
+                        lastSalesAmount: 29.604,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                    },
+
+                    {
+                        outletId: 50,
+                        outletName: 'Iftakhar Tech BD',
+                        outletLong: '90.3644328',
+                        outletLat: '23.7557893',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Iftakhar',
+                        mobileNumber: '1645237434',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 240,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                    },
+
+
+
+
+
+                    {
+                        outletId: 1026,
+                        outletName: 'Faw',
+                        outletLong: '90.36542960000001',
+                        outletLat: '23.7509415',
+                        longitiud: null,
+                        latitude: null,
+                        isOrder: false,
+                        isNoOrder: false,
+                        notVisited: true,
+                        checkinTime: null,
+                        checkOutTime: null,
+                        stayingTime_In_Minutes: null,
+                        ownerName: 'Mamun Dadu',
+                        mobileNumber: '235325532',
+                        outletAddress: 'Dhaka',
+                        lastSalesAmount: 0,
+                        averageSalesAmount: 0,
+                        date: '0001-01-01T00:00:00',
+                        orderAmount: 0,
+                    },
+                ];
+
+            let clone = [...locations]
+            let polylineDataa = polyData.map(item => {
+                return [item?.outletLat, item?.outletLong]
+            })
+
+            var polyline = L.polyline(polylineDataa, { color: '#3388ff' }).addTo(map);
+            var decorator = L.polylineDecorator(polyline, {
+                patterns: [{
+                    offset: 15, /* pos of first arrow */ repeat: 55, /* dist between arrows */
+                    symbol: L.Symbol.arrowHead({ // Define the arrow symbol
+                        pixelSize: 10, // Size
+                        polygon: false, // false: ^ shape, true: triangle shape.
+                        pathOptions: { stroke: true } // Required to actually draw the arrow.
+                    })
+                }]
+            }).addTo(map);
+            // L.Routing.control({
+            //     waypoints: polylineDataa,
+            //     draggableWaypoints: false,
+            //     routeWhileDragging: false,
+            //     createMarker: function () { return null; },
+            //     lineOptions: {
+            //         addWaypoints: false
+            //     }
+            // }).addTo(map);
+
+
+            var i;
+            var icon;
+            for (i = 0; i < locations.length; i++) {
+                var geo = locations[i]
+                var lat;
+                var long;
+
+
+                // lat = geo?.outletLat
+                // long = geo?.outletLong
+
+
+                if (geo?.notVisited) {
+                    lat = geo?.outletLat
+                    long = geo?.outletLong
+                } else {
+                    lat = geo?.latitude
+                    long = geo?.longitiud
+                }
+
+                if (geo?.notVisited) {
+                    icon = L.icon({
+                        iconUrl: 'https://erp.ibos.io/domain/Document/DownlloadFile?id=60ee74a1f35b9d5d277825f0',
+                        iconSize: [40, 40]
+                    });
+                }
+
+                if (geo?.isOrder) {
+                    icon = L.icon({
+                        iconUrl: 'https://img.icons8.com/metro/100/26e07f/marker.png',
+                        iconSize: [40, 40]
+                    });
+                }
+
+                if (geo?.isNoOrder) {
+                    icon = L.icon({
+                        iconUrl: 'https://erp.ibos.io/domain/Document/DownlloadFile?id=60bda9d747097661d29daf9f',
+                        iconSize: [40, 40]
+                    });
+                }
+
+                if (geo?.isOrder && geo?.orderDistance > 25) {
+                    icon = L.icon({
+                        iconUrl: 'https://erp.ibos.io/domain/Document/DownlloadFile?id=60d80a993d4a4cce8b04fc8c',
+                        iconSize: [40, 40]
+                    });
+                }
+
+
+                var marker = L.marker([lat, long], { icon: icon }).addTo(map);
+                marker.bindPopup("<b>" + geo?.outletName + "</b> <p style='margin:0'>" + geo?.ownerName + "</p><p style='margin:0'>" + geo?.mobileNumber + "</p><p style='margin:0'>" + geo?.outletAddress + "</p> " + "<p style='margin:0'>Last Sales Amount : " + geo?.lastSalesAmount + "</p> ");
+            }
+
+        }
+
+
+
+        function showMarker({ latitude, longitude, userName }) {
+            showMap(() => {
+                // alert(locations?.length)
+
+                map.flyTo([geo[0]?.outletLat, geo[0]?.outletLong], 15)
+            })
+
+        }
+
+        if (navigator.appVersion.includes('Android')) {
+            document.addEventListener("message", function (data) {
+                showMarker(JSON.parse(data.data))
+            });
+        }
+        else {
+            window.addEventListener("message", function (data) {
+                showMarker(JSON.parse(data.data))
+            });
+        }
+
+        showMap(() => { })
+    </script>
+
+</body>
+
+</html>
